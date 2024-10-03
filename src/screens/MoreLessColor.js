@@ -1,47 +1,48 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { View } from 'react-native'
 import ColorComponent from "../components/ColorComponent";
 
-const MoreLessColor = () => {
-    const [red, setRed] = useState(0);
-    const [green, setGreen] = useState(0);
-    const [blue, setBlue] = useState(0);
+const colorIncrementDecrementStep = 20
 
-    const colorIncrementDecrementStep = 20
+const initialColor = {
+    red: 0,
+    green: 0,
+    blue: 0
+}
 
-    const setColor = (color, change) => {
-        switch (color) {
-            case 'red':
-                red + change > 255 || red + change < 0 ? null : setRed(red + change);
-                break;
-            case 'green':
-                green + change > 255 || green + change < 0 ? null : setGreen(green + change);
-                break;
-            case 'blue':
-                blue + change > 255 || blue + change < 0 ? null : setBlue(blue + change);
-                break;
-            default:
-                console.log("Invalid color");
-        }
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'RED':
+            return state.red + action.payload < 0 || state.red + action.payload > 255 ? state : { ...state, red: state.red + action.payload }
+        case 'GREEN':
+            return state.green + action.payload < 0 || state.green + action.payload > 255 ? state : { ...state, green: state.green + action.payload }
+        case 'BLUE':
+            return state.blue + action.payload < 0 || state.blue + action.payload > 255 ? state : { ...state, blue: state.blue + action.payload }
+        default:
+            return state
     }
+}
+
+const MoreLessColor = () => {
+
+    const [state, dispatch] = useReducer(reducer, initialColor)
+    const { red, green, blue } = state
 
     return <View>
         <ColorComponent
             color="Red"
-            onIncrease={() => setColor('red', colorIncrementDecrementStep)}
-            onDecrease={() => setColor('red', -colorIncrementDecrementStep)}
+            onIncrease={() => dispatch({ type: 'RED', payload: colorIncrementDecrementStep })}
+            onDecrease={() => dispatch({ type: 'RED', payload: -colorIncrementDecrementStep })}
         />
         <ColorComponent
             color="Green"
-            setColor={setGreen}
-            onIncrease={() => setColor('green', colorIncrementDecrementStep)}
-            onDecrease={() => setColor('green', -colorIncrementDecrementStep)}
+            onIncrease={() => dispatch({ type: 'GREEN', payload: colorIncrementDecrementStep })}
+            onDecrease={() => dispatch({ type: 'GREEN', payload: -colorIncrementDecrementStep })}
         />
         <ColorComponent
             color="Blue"
-            setColor={setBlue}
-            onIncrease={() => setColor('blue', colorIncrementDecrementStep)}
-            onDecrease={() => setColor('blue', -colorIncrementDecrementStep)}
+            onIncrease={() => dispatch({ type: 'BLUE', payload: colorIncrementDecrementStep })}
+            onDecrease={() => dispatch({ type: 'BLUE', payload: -colorIncrementDecrementStep })}
         />
         <View style={{
             height: 100,
