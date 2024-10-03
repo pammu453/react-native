@@ -4,17 +4,15 @@ import HomeScreen from "./src/screens/HomeScreen";
 import ComponentScreen from './src/screens/ComponentScreen'
 import ListScreen from './src/screens/ListScreen'
 import ImageScreen from "./src/screens/ImageScreen";
-
-import { LogBox } from 'react-native';
-
-LogBox.ignoreAllLogs(false); 
+import CounterScreen from "./src/screens/CounterScreen";
 
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
     Component: ComponentScreen,
     List: ListScreen,
-    ImageScreen: ImageScreen
+    ImageScreen: ImageScreen,
+    Counter: CounterScreen,
   },
   {
     initialRouteName: "Home",
