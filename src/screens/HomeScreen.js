@@ -27,6 +27,10 @@ const HomeScreen = ({ navigation }) => {
         title="Go to Color Screen"
         onPress={() => navigation.navigate("Color")}
       />
+      <Button
+        title="Go to MoreLess Screen"
+        onPress={() => navigation.navigate("MoreLessColor")}
+      />
     </View>
   );
 };
